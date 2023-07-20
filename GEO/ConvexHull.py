@@ -8,7 +8,7 @@ class ConvexHull():
     def ccw(self, A, B, C):
         return (B[0]-A[0])*(C[1]-A[1]) - (B[1]-A[1])*(C[0]-A[0])
     
-    def get_hull_points(self,points_on_edges=False):
+    def get_hull_points(self):
         
         if len(self.points) <= 1:
             return self.points
@@ -17,12 +17,8 @@ class ConvexHull():
         self.points.sort()
         points = self.points
         for i in itertools.chain(range(len(points)), reversed(range(len(points)-1))):
-            if points_on_edges:
-                while len(hull) >= 2 and self.ccw(hull[-2], hull[-1], points[i]) < 0:
-                    hull.pop()
-            else:
-                while len(hull) >= 2 and self.ccw(hull[-2], hull[-1], points[i]) <= 0:
-                    hull.pop()
+            while len(hull) >= 2 and self.ccw(hull[-2], hull[-1], points[i]) < 0:
+                hull.pop()
             hull.append(points[i])
         hull.pop()
 

@@ -12,6 +12,6 @@ ni = 0
 solution = [0]
 
 while N:
-    ni = memo[(ni, N)]
+    ni = M[(ni, N)]
     solution.append(ni)
     N = N.difference({ni})

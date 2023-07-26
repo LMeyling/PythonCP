@@ -7,4 +7,11 @@ def dist(ni,N):
     nmin,min_cost=min(c,key=lambda x:x[1])
     M[(ni,N)] = nmin
     return min_cost
-print(dist(0,N))
+min_dist = dist(0,N)
+ni = 0
+solution = [0]
+
+while N:
+    ni = memo[(ni, N)]
+    solution.append(ni)
+    N = N.difference({ni})

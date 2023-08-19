@@ -1,4 +1,4 @@
-#Takes numbers as nodes, scc stores components as array
+#Takes numbers as nodes, scc stores components as array, store node in connections array
 
 V = len(nodes)
 g, gt = [[] for _ in range(V)], [[] for _ in range(V)]

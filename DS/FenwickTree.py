@@ -28,3 +28,4 @@ class FenwickTree():
  
     def range_sum(self, l, r):
         #assert 0 <= l <= r <= self.n
+        return self.sum(r) - self.sum(l)

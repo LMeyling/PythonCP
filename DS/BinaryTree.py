@@ -1,107 +1,87 @@
-from typing import Union
-class SortedSet:
-    # 0以上u未満の整数が載る集合
-    # セグ木的な構造、各Nodeはその子孫のOR値を保持(ORではなくSUMならBITと同じ感じ)
-    #
-    # insert, delete, contains, predecessor, successorがO(logu)で可能
-    # 空間はO(u)
-    # k番目の値の取得、イテレートはO(u)(実装していない)
-    #
-    def __init__(self, u: int):
+# Works for x < 1 << 31
 
-        self.log = (u - 1).bit_length()
-        self.size = 1 << self.log
-        self.u = u
-        self.data = bytearray(self.size << 1)
+from array import array
+from typing import Iterable, TypeVar, Optional
 
-    def add(self, k: int) -> bool:
-        k += self.size
-        if self.data[k]: return False
-        self.data[k] = 1
-        while k > 1:
-            k >>= 1
-            if self.data[k]: break
-            self.data[k] = 1
-        return True
+class WordsizeTreeSet:
 
-    def discard(self, k: int) -> bool:
-        k += self.size
-        if self.data[k] == 0: return False
-        self.data[k] = 0
-        while k > 1:
-            if k & 1:
-                if self.data[k - 1]: break
-            else:
-                if self.data[k + 1]: break
-            k >>= 1
-            self.data[k] = 0
-        return True
+  def __init__(self, u: int, a: Iterable[int]=[]):
+    self.u = u
+    data = []
+    len_ = 0
+    if a:
+      u >>= 5
+      A = array('I', bytes(4*(u+1)))
+      for a_ in a:
+        if A[a_>>5] >> (a_&31) & 1 == 0:
+          len_ += 1
+          A[a_>>5] |= 1 << (a_&31)
+      data.append(A)
+      while u:
+        a = array('I', bytes(4*((u>>5)+1)))
+        for i in range(u+1):
+          if A[i]:
+            a[i>>5] |= 1 << (i&31)
+        data.append(a)
+        A = a
+        u >>= 5
+    else:
+      while u:
+        u >>= 5
+        data.append(array('I', bytes(4*(u+1))))
+    self.data = data
+    self.len = len_
+    self.len_data = len(data)
 
-    def __contains__(self, k: int):
-        return self.data[k + self.size] == 1
+  def add(self, x: int) -> bool:
+    if self.data[0][x>>5] >> (x&31) & 1: return False
+    for a in self.data:
+      a[x>>5] |= 1 << (x&31)
+      x >>= 5
+    self.len += 1
+    return True
 
-    def get_min(self) -> Union[int, None]:
-        if self.data[1] == 0: return None
-        k = 1
-        while k < self.size:
-            k <<= 1
-            if self.data[k] == 0: k |= 1
-        return k - self.size
+  def discard(self, x: int) -> bool:
+    if self.data[0][x>>5] >> (x&31) & 1 == 0: return False
+    self.len -= 1
+    for a in self.data:
+      a[x>>5] &= ~(1 << (x&31))
+      x >>= 5
+      if a[x]: break
+    return True
 
-    def get_max(self) -> Union[int, None]:
-        if self.data[1] == 0: return None
-        k = 1
-        while k < self.size:
-            k <<= 1
-            if self.data[k | 1]: k |= 1
-        return k - self.size
+  def ge(self, x: int) -> Optional[int]:
+    d = 0
+    data = self.data
+    while True:
+      if d >= self.len_data or x>>5 >= len(data[d]): return -1
+      m = data[d][x>>5] & ((~0) << (x&31))
+      if m == 0:
+        d += 1
+        x = (x >> 5) + 1
+      else:
+        x = (x >> 5 << 5) + (m & -m).bit_length() - 1
+        if d == 0: break
+        x <<= 5
+        d -= 1
+    return x
 
-    '''Find the largest element < x, or -1 if it doesn't exist.'''
+  def le(self, x: int) -> Optional[int]:
+    d = 0
+    data = self.data
+    while True:
+      if x < 0 or d >= self.len_data: return -1
+      m = data[d][x>>5] & ~((~1) << (x&31))
+      if m == 0:
+        d += 1
+        x = (x >> 5) - 1
+      else:
+        x = (x >> 5 << 5) + m.bit_length() - 1
+        if d == 0: break
+        x <<= 5
+        x += 31
+        d -= 1
+    return x
 
-    def lt(self, k: int) -> Union[int, None]:
-
-        if self.data[1] == 0: return -1
-        x = k
-        k += self.size
-        while k > 1:
-            if k & 1 and self.data[k - 1]:
-                k >>= 1
-                break
-            k >>= 1
-        k <<= 1
-        if self.data[k] == 0: return -1
-        while k < self.size:
-            k <<= 1
-            if self.data[k | 1]: k |= 1
-        k -= self.size
-        return k if k < x else -1
-
-    '''Find the largest element <= x, or -1 if it doesn't exist.'''
-
-    def le(self, k: int) -> Union[int, None]:
-        if self.data[k + self.size]: return k
-        return self.lt(k)
-
-    '''Find the smallest element > key, or -1 if it doesn't exist. / O(logN)'''
-
-    def gt(self, k: int) -> Union[int, None]:
-        if self.data[1] == 0: return -1
-        x = k
-        k += self.size
-        while k > 1:
-            if k & 1 == 0 and self.data[k + 1]:
-                k >>= 1
-                break
-            k >>= 1
-        k = k << 1 | 1
-        while k < self.size:
-            k <<= 1
-            if self.data[k] == 0: k |= 1
-        k -= self.size
-        return k if k > x and k < self.u else -1
-
-    '''Find the smallest element >= x, or -1 if it doesn't exist.'''
-
-    def ge(self, k: int) -> Union[int, None]:
-        if self.data[k + self.size]: return k
-        return self.gt(k)
+  def member(self, x):
+    return self.data[0][x>>5] >> (x&31) & 1

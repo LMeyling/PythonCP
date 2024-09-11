@@ -1,7 +1,7 @@
 class DSF:
     def __init__(self, n:int) -> None:
-        self.par = array("i", [i for i in range(n)])
-        self.siz = array("i", [0]*n)  
+        self.par = [i for i in range(n)]
+        self.siz =  [0]*n
     def root(self, x: int) -> int:
         while self.par[x] != x:
             self.par[x] = self.par[self.par[x]] 

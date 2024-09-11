@@ -1,23 +1,24 @@
-graph = [x for x in range(1, (n * m) + 1)]
-size = [0 for x in range(1, (n * m) + 1)]
+class DSF:
+    def __init__(self, n:int) -> None:
+        self.par = array("i", [i for i in range(n)])
+        self.siz = array("i", [0]*n)  
+    def root(self, x: int) -> int:
+        while self.par[x] != x:
+            self.par[x] = self.par[self.par[x]] 
+            x = self.par[x]
+        return x
 
-def find(current):
-    if graph[current - 1] == current:
-        return current
-    graph[current - 1] = find(graph[current - 1])
-    return graph[current - 1]
-
-
-def union(first, second):
-    one = find(first)
-    two = find(second)
-    if one != two:
-        if size[one - 1] < size[two - 1]:
-            tmp = one
-            one = two
-            two = tmp
-        graph[one - 1] = two
-        if size[two - 1] == size[one - 1]:
-            size[one - 1] += 1
-        return 1
-    return 0
+    def union(self, x: int, y: int) -> bool:
+        x = self.root(x)
+        y = self.root(y)
+        if x == y:
+            return False
+        if self.siz[x] < self.siz[y]:
+            x, y = y, x
+        self.siz[x] += self.siz[y]
+        self.par[y] = x
+        return True
+    def same(self, x: int, y: int) -> bool:
+        return self.root(x) == self.root(y)
+    def size(self, x: int) -> int:
+        return self.siz[self.root(x)]

@@ -1,3 +1,4 @@
+# Status: checked
 def hungarian(A):
     inf = 1 << 40
     n = len(A) + 1

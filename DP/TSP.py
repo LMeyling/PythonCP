@@ -1,3 +1,4 @@
+# Status: needs revisit
 def tsp(dist_m, circle=False):
     n = len(dist_m)
     N = sum([1 << i for i in range(n)])

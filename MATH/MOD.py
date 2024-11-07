@@ -1,3 +1,4 @@
+# Status: checked
 MOD = 998244353
  
 fac_arr = [1]

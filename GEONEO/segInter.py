@@ -1,3 +1,4 @@
+# Status: checked
 from onSegment import onSegment
 from point import *
 

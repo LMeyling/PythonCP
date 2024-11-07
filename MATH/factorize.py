@@ -1,3 +1,4 @@
+# Status: checked
 import math
 from functools import reduce
 

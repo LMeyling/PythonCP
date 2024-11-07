@@ -1,3 +1,4 @@
+# Status: checked
 # Calculates latice points for Polygon of INTEGER POINTS a, b (inside Polygon, on Polygon)
 # Picks Theorem: Area = a + b/2 - 1
 

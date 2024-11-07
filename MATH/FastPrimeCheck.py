@@ -1,3 +1,4 @@
+# Status: checked
 def is_prime(n):
     'O(logN) miller rabin algorithm'
     if n == 2: return 1

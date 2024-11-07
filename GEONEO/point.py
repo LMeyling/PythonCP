@@ -1,3 +1,4 @@
+# Status: checked
 from math import atan2, cos, sin
 from functools import total_ordering
 def sgn(x):

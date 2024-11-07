@@ -1,3 +1,4 @@
+# Status: checked
 # returns Intersection of two lines (s1->e1) and (s2->e2)
 # if one Intersection 1, Point; if no Intersection 0, (0,0); if infinite -1, (0,0)
 

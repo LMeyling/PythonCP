@@ -1,3 +1,4 @@
+# Status: checked
 # returns signed distance between p and line from a to b
 
 from point import *

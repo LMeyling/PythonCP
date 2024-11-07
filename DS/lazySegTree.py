@@ -1,3 +1,4 @@
+# Status: checked
 # great segment tree, sadly too long for icpc
 
 class lazy_segtree():
@@ -155,3 +156,5 @@ def mapping(lazy_upper, data_lower):
 def composition(lazy_upper, lazy_lower):
     if lazy_upper[1] == 2:return lazy_upper
     return [lazy_upper[0] + lazy_lower[0], lazy_lower[1]]
+# mapping(_id, data_lower) = data_lower
+_id = [0,1]

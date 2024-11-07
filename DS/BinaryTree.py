@@ -1,5 +1,5 @@
+# Status: needs revisit
 # Works for x < 1 << 31
-
 from array import array
 from typing import Iterable, TypeVar, Optional
 
@@ -85,3 +85,4 @@ class WordsizeTreeSet:
 
   def member(self, x):
     return self.data[0][x>>5] >> (x&31) & 1
+

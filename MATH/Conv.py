@@ -1,3 +1,4 @@
+# Status: checked
 # conv from https://judge.yosupo.jp/submission/41422
 mod = 998244353 # Only works for this MOD
 g = 3

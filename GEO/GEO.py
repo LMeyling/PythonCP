@@ -1,3 +1,4 @@
+# Status: not in use
 class Point:
     def __init__(self,x,y):
         self.x = x
@@ -38,9 +39,11 @@ class Segment:
         self.P2 = P2
 
     def intersect(self, S):
-        V = self.P2.subtract(self.P1)
-        C1 = V.cross(S.P1)
-        C2 = V.cross(S.P2)
+
+        C1 = S.P1.subtract(self.P1).cross(S.P1.subtract(self.P2))
+        C3 = self.P1.subtract(S.P1).cross(self.P1.subtract(S.P2))
+        C4 = self.P2.subtract(S.P1).cross(self.P2.subtract(S.P2))
+        C2 = S.P2.subtract(self.P1).cross(S.P2.subtract(self.P2))
 
         if self.P1.same(S.P1) or self.P2.same(S.P1) or self.P1.same(S.P2) or self.P2.same(S.P2):
             return True
@@ -51,9 +54,7 @@ class Segment:
             if (LIST[0][2] + LIST[1][2] == 1) or  (LIST[2][2] + LIST[3][2] == 1):
                 return False
             return True
-        V1 = S.P2.subtract(S.P1)
-        C3 = V1.cross(self.P1)
-        C4 = V1.cross(self.P2)
+
 
         if C1 * C2 <= 0 and C3 * C4 <= 0:
             return True
@@ -90,3 +91,8 @@ class ConvexHull():
                 break
             hull.pop()
         return hull
+
+A = Segment(Point(1,1),Point(400,400))
+B = Segment(Point(0,2),Point(4,2))
+print(A.intersect(B))
+print(B.intersect(A))

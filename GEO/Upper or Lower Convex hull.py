@@ -1,3 +1,4 @@
+# Status: not in use
 def cross(point_a, point_b, point_c):
     vec_ab = ((point_b[0] - point_a[0]), (point_b[1] - point_a[1]))
     vec_ac = ((point_c[0] - point_b[0]), (point_c[1] - point_b[1]))

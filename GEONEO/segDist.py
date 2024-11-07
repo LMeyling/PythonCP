@@ -1,4 +1,4 @@
-
+# Status: checked
 from point import *
 
 # Returns the shortest distance between point p and the line segment from point s to e.

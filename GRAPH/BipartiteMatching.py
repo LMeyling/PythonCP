@@ -1,3 +1,4 @@
+# Status: checked
 class BipartiteMatching:
     def __init__(self, n, m):
         self._n = n

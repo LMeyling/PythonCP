@@ -1,3 +1,4 @@
+# Status: checked
 # Lowest Common Ancestor Query; init O(nlogn), query O(1)
 
 class LCA:

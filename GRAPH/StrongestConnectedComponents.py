@@ -1,3 +1,4 @@
+# Status: needs revisit
 #Takes numbers as nodes, scc stores components as array, store node in connections array
 
 V = len(nodes)

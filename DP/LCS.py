@@ -1,3 +1,4 @@
+# Status: needs revisit
 def LCS(S1, S2, m, n):
     L = [[0 for x in range(n + 1)] for x in range(m + 1)]
 

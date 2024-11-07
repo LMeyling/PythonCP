@@ -1,3 +1,5 @@
+# Status: checked
+# maybe create general segtree version
 import sys
 class RMQ:
     def __init__(self, n):

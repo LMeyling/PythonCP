@@ -1,3 +1,4 @@
+# Status: checked
 class DSF:
     def __init__(self, n:int) -> None:
         self.par = [i for i in range(n)]

@@ -1,3 +1,4 @@
+# Status: checked
 # find max independnet_set; literal magic, works up to n = 100
 
 def maximum_independnet_set(

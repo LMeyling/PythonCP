@@ -1,3 +1,4 @@
+# Status: checked
 # Returns twice the signed area of a polygon.
 # Clockwise enumeration gives negative area
 

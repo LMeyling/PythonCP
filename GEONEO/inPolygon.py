@@ -1,3 +1,4 @@
+# Status: checked
 # Returns 1 if p lies within the polygon. Returns 2 if p lies on an edge
 # care with floats
 

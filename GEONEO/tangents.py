@@ -1,3 +1,4 @@
+# Status: checked
 # finds external (or internal for negative r) tangets of two circles (c1,r1), (c2,r2)
 # 0 tangents: one circle contains the other
 # 1 if circles are tangent to each other (first point = second point)

@@ -1,3 +1,4 @@
+# Status: checked
 def SubsequenceCount(S, Mod=None, empty=True):
     """ 列 S の異なる (連続とは限らない) 部分列の個数を求める.
 

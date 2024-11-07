@@ -1,7 +1,6 @@
+# Status: checked
 import sys
 from heapq import heappush, heappop
-
-
 class DoubleEndedPriorityQueue:
     def __init__(self, arr: List[int] = None) -> None:
         self.hq1 = []

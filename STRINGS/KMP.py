@@ -1,3 +1,4 @@
+# Status: needs revisit
 import sys
 from sys import stdin
 def KMPSearch(pat, txt):

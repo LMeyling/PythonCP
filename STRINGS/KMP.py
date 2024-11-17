@@ -1,43 +1,25 @@
 # Status: needs revisit
-import sys
-from sys import stdin
-def KMPSearch(pat, txt):
-    sol = []
-    M = len(pat)
-    N = len(txt)
-    lps = [0] * M
+def kmp_search(pattern, text):
+    def compute_lps(pat):
+        lps = [0] * len(pat)
+        length = 0
+        for i in range(1, len(pat)):
+            while length > 0 and pat[i] != pat[length]:
+                length = lps[length - 1]
+            if pat[i] == pat[length]:
+                length += 1
+                lps[i] = length
+        return lps
+
+    lps = compute_lps(pattern)
+    matches = []
     j = 0
-    computeLPSArray(pat, M, lps)
-
-    i = 0
-    while i < N:
-        if pat[j] == txt[i]:
-            i += 1
-            j += 1
-
-        if j == M:
-            sol.append(i-j)
+    for i in range(len(text)):
+        while j > 0 and text[i] != pattern[j]:
             j = lps[j - 1]
-
-        elif i < N and pat[j] != txt[i]:
-            if j != 0:
+        if text[i] == pattern[j]:
+            j += 1
+            if j == len(pattern):
+                matches.append(i - j + 1)
                 j = lps[j - 1]
-            else:
-                i += 1
-    print(*sol)
-
-def computeLPSArray(pat, M, lps):
-    len = 0
-    lps[0]
-    i = 1
-    while i < M:
-        if pat[i] == pat[len]:
-            len += 1
-            lps[i] = len
-            i += 1
-        else:
-            if len != 0:
-                len = lps[len - 1]
-            else:
-                lps[i] = 0
-                i += 1
+    return matches

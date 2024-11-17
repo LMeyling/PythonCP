@@ -55,15 +55,15 @@ def solve_first_occurrence(a, b, c, d,m):
         i0 += m_double_prime
 
     return i0
-def calc_col(a,b,c,d,t):
+def calc_col(a,b,c,d,t,MOD):
     if a < c:
         a,c = c,a
         b,d = d,b
-    first_oc = solve_first_occurrence(a,b,c,d,H)
+    first_oc = solve_first_occurrence(a,b,c,d,MOD)
     if first_oc is None:
         return - 1
     else:
-        freq =  H // math.gcd(a-c,H)
+        freq =  MOD // math.gcd(a-c,MOD)
         x = (t // freq) * freq
         x += first_oc
         if x < t:

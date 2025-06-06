@@ -2,6 +2,7 @@ class iter_seg:
     def __init__(self, arr,e=0xFFFFFFFF,op=min):
         self.n = len(arr)
         self.bits = (self.n-1).bit_length() + 1
+        self.max = 1 << self.bits
         self.e = e
         self.op = op
         self.arr = [self.e for _ in range(1<<self.bits)]
@@ -38,3 +39,33 @@ class iter_seg:
                 self.arr[x] = y
 
             x >>= 1
+    def min_right(self, start, comp):
+        val = 1 << self.bits
+        v = self.e
+        cur = start
+        san = start
+        biggest = 0
+        for bit in range(self.bits):
+            if san + (1 << bit) >= self.max: break
+            if cur % 2:
+                nv = self.op(v, self.arr[cur + self.ll[bit]])
+                if not comp(nv):
+                    v = nv
+                    cur += 1
+                    san += 1 << bit
+                else:
+                    break
+            biggest = bit + 1
+            cur >>= 1
+        smallest = self.n + 1
+        for bit in range(biggest, -1,-1):
+            if san + (1 << bit) >= self.max: continue
+            nv = self.op(v, self.arr[cur + self.ll[bit]])
+            if not comp(nv):
+                san += 1 << bit
+                v = nv
+                cur += 1
+            else:
+                smallest = min(smallest,san + (1 << bit), self.n)
+            cur <<= 1
+        return smallest

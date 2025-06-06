@@ -58,6 +58,7 @@ class iter_seg:
             biggest = bit + 1
             cur >>= 1
         smallest = self.n + 1
+        if san >= smallest: return smallest
         for bit in range(biggest, -1,-1):
             if san + (1 << bit) >= self.max: continue
             nv = self.op(v, self.arr[cur + self.ll[bit]])

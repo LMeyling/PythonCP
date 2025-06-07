@@ -70,3 +70,37 @@ class iter_seg:
                 smallest = min(smallest,san + (1 << bit), self.n)
             cur <<= 1
         return smallest
+
+    def max_left(self, start, comp):
+        v = self.e
+        cur = start
+        san = start + 1
+        biggest = 1
+        pl = 0
+        for bit in range(self.bits):
+            if san - (1 << bit) < 0: break
+            if 1 ^ (cur & 1):
+                nv = self.op(v, self.arr[cur + self.ll[bit]])
+                if not comp(nv):
+                    v = nv
+                    cur -= 1
+                    san -= 1 << bit
+                else:
+                    pl = 1
+                    break
+            biggest = bit + 1
+            cur >>= 1
+        bigs = -1
+        for bit in range(biggest, -1, -1):
+            cur += 1 - pl
+            pl = 0
+            if san - (1 << bit) < 0: continue
+            nv = self.op(v, self.arr[cur + self.ll[bit]])
+            if not comp(nv):
+                san -= 1 << bit
+                v = nv
+                cur -= 1
+            else:
+                bigs = max(bigs, san - (1 << bit), 0)
+            cur <<= 1
+        return bigs
